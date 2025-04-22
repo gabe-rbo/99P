@@ -1,0 +1,30 @@
+% Queremos construir uma árvore multidirecional com base numa string
+% onde ^ representa voltar ao nível anterior.
+% O predicado também deve funcionar em abos os sentidos.
+
+tree(String, T) :- atom(String), atom_chars(String, CharsS), gera_arvore(CharsS-[], T), !.
+tree(String, T) :- nonvar(T), gera_arvore(StringChars-[], T), atom_chars(String, StringChars).
+
+% Como reconhecer o caracter ^ recursivamente?
+
+gera_arvore([Char1|Chars] - L, t(Char1, Floresta)) :- gera_floresta(Chars-['^'|L], Floresta).
+
+% Podemos subtrair as listas. A floresta respectiva vai ser gerada até o
+% primeiro ^. Então podemos usar da unificação para encontrá-lo.
+
+gera_floresta(F - F, []) :- !.
+gera_floresta(F1 - F3, [Arvore|Floresta]) :- gera_arvore(F1 - F2, Arvore), gera_floresta(F2 - F3,
+                                                                                          Floresta).
+% Precisamos de F2 aqui pois ele "procura" os ^.
+% F1 é a lista de caracteres com o primeiro ^,
+% F3 é o restante de F1.
+% F2 é a parte de F3 até o primeiro ^ em F3.
+
+% Para fazermos isso funcionar dos dois lados, temos que inverter a
+% ordem de condições de tree (Árvore neste caso não pode ser uma
+% variável)
+
+% tree(String, T) :- nonvar(T), gera_arvores(StringChars, T),
+% atom_chars(String, StringChars).
+
+

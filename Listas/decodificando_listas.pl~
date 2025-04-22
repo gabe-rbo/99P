@@ -1,0 +1,11 @@
+decodificar([_, _], 0, []).
+decodificar([N, Letra], N,[Letra|Corpo]) :-
+    Cont1 is  N-1,
+    decodificar([N, Letra], Cont1, Corpo).
+
+decodificar([], []).
+decodificar([[N, Letra]|Corpo], [CabecaDecodificada|CorpoDecodificado]) :-
+    decodificar([N, Letra], N, CabecaDecodificada),
+    decodificar(Corpo, CorpoDecodificado).
+
+

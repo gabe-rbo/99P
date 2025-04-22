@@ -1,0 +1,10 @@
+escolhe(1, [X|_], X).
+escolhe(1, [_|L], Y) :-
+	escolhe(1, L, Y).
+	
+escolhe(N, [X|L], [X|Restante]) :-
+	N1 is N-1,
+	escolhe(N1, L, Restante).
+	
+escolhe(N, [_|L], Escolhidos) :-
+	escolhe(N, L, Escolhidos).

@@ -1,0 +1,6 @@
+range(X, X, [X]) :- !.
+range(A, B, [Cabeca|Corpo]) :-
+	=(Cabeca, A),
+	A1 is A+1,
+	A1 =< B,
+	range(A1, B, Corpo).

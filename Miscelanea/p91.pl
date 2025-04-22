@@ -1,0 +1,41 @@
+% Queremos resolver o problema do passeio do cavalo. Isto é, queremos
+% visitar todas as casas de um tabuleiro NxN usando os passos de um
+% cavalo no Xadrez. Vamos considerar que ele começa na casa (1,1).
+%     (+, -)
+knight(N, L) :-
+    casas(N, CasasTab),
+    delete(CasasTab, 1/1, CasasNaoVisitadas),
+    knight2(N, [1/1], CasasNaoVisitadas, L).
+
+knight2(_, Visitados, [], Visitados).
+knight2(N, Visitados, CasasNaoVisitadas, L) :-
+    =(Visitados, [X/Y|_]),
+    pula(N, X/Y, A/B),
+    member(A/B, CasasNaoVisitadas),
+    delete(CasasNaoVisitadas, A/B, CasasNaoVisitadas2),
+    knight2(N, [A/B|Visitados], CasasNaoVisitadas2, L).
+
+pula(N, X/Y, A/B) :-
+    move(Dx, Dy),
+    A is X + Dx, A > 0, A =< N,
+    B is Y + Dy, B > 0, B =< N.
+
+move(2, 1).
+move(2, -1).
+move(-2, 1).
+move(-2, -1).
+move(1, 2).
+move(1, -2).
+move(-1, -2).
+move(-1, 2).
+
+casas(N, Casas) :- casas(N, N, N, Casas).
+
+casas(N, _, 0, []) :- !.
+casas(N, 1, B, [1/B|Cauda]) :- !,
+    B1 is B - 1,
+    casas(N, N, B1, Cauda).
+casas(N, A, B, [A/B|Cauda]) :- !,
+    A1 is A - 1,
+    casas(N, A1, B, Cauda).
+

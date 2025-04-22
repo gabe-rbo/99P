@@ -1,0 +1,13 @@
+% Queremos selecionar, de maneira aleatória, N elementos de uma lista
+% pré-determinada. Tentarei simular o não-determinismo pelo delete.
+
+del([X|L], X, L).
+del([Y|L], X,[Y|LsemX]) :-
+    del(L, X, LsemX).
+
+rnd_select(_, 0, []).
+rnd_select(L, N, [X|Corpo]) :-
+    N1 is N - 1,
+    del(L, X, LsemX),
+    rnd_select(LsemX, N1, Corpo).
+

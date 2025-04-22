@@ -1,0 +1,40 @@
+% Queremos contar o número de nódulos internos de uma árvore binária.
+% Sabemos que um nódulo é interno se ele não for uma folha.
+
+leaf(t(_, nil, nil)).
+
+
+internals2(nil, Acu, Acu).
+internals2(Node, Acu, Internos) :-
+    =(Node, t(X, E, D)),
+    (not(leaf(Node)) -> =(NAcu,[X|Acu])
+    ;   =(NAcu, Acu)),
+    internals2(E, NAcu, InternosE),
+    internals2(D, InternosE, Internos).
+
+
+internals(t(_, E, D), Internos) :- internals2(E, [], InternosE), internals2(D, InternosE, Internos).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+%internals(nil, []).
+%internals(t(X, L, R), [X|S]) :-
+%    internals(L, SL), internals(R, SR), append(SL, SR, S).
+
+

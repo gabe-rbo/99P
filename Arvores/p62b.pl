@@ -1,0 +1,10 @@
+% Queremos coletar todos os nódulos que estão numa profundidade N da
+% lista.
+
+atlevel(nil, _, []).
+atlevel(t(X, _, _), 0, [X]) :- !.
+atlevel(t(_, L, R), L, S) :- L > 0,
+    L1 is L - 1,
+    atlevel(L, L1, SL),
+    atlevel(R, L1, SR),
+    append(SL, SR, S).

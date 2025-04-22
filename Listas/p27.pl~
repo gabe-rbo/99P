@@ -1,0 +1,41 @@
+% Para resolver isto vou tentar usar do P23, que nos dá N elementos
+% escolhidos aleatoriamente de uma lista.
+
+:- ensure_loaded(p23).
+
+
+% Para isso vamos subtrair listas.
+
+delete_L(L1, [], L1).
+delete_L([X|L1], [Y|L2], L) :-
+    X = Y,
+    delete_L(L1,  L2, L).
+delete_L([Y|L1], [X|L2], L) :-
+    Y \= X,
+    del(L1, X, L1SemX),
+    delete_L([Y|L1SemX], L2, L).
+
+%group3(L, G1, G2, G3) :-
+%    rnd_select(L, 2, G1),
+%    delete_L(L, G1, LsemG1),
+%    rnd_select(LsemG1, 3, G2),
+%    delete_L(LsemG1, G2, LsemG1G2),
+%    rnd_select(LsemG1G2, 4, G3).
+
+% Isso gera uma única possibilidade de via aleatória. O motivo de gerar
+% apenas uma é porque random_between/3 possui um corte, o que impede o
+% backtracking. Vamos manter o raciocínio, porém gerar o backtracking
+% por meio do del/3.
+
+select(_, 0, []) :- !. % Isso evita permutações!
+select(L, N, [X|Corpo]) :- N > 0,
+    del(L, X, LsemX),
+    N1 is N - 1,
+    select(LsemX, N1, Corpo).
+
+group3(L, G1, G2, G3) :-
+    select(L, 2, G1),
+    delete_L(L, G1, LsemG1),
+    select(LsemG1, 3, G2),
+    delete_L(LsemG1, G2, LsemG1G2),
+    select(LsemG1G2, 4, G3).

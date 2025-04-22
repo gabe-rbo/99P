@@ -1,0 +1,23 @@
+% Queremos girar uma lista para a esquerda, para isso podemos usar do
+% p17.
+
+:- ensure_loaded(p17).
+
+%rotate(L, 0, L).
+%rotate(L, N, LRotacionada) :-
+%    length(L, TamanhoL),
+%    Corte is TamanhoL - N,
+%    Corte >= 0, !,
+%    split(L, Corte, L1, L2),
+%    append(L2, L1, LRotacionada).
+
+rotate(L, N, LRotacionada) :-
+    length(L, TamanhoL),
+    Corte is TamanhoL - N,
+    ( Corte > TamanhoL ->
+      C is mod(Corte, TamanhoL)
+    ; =(Corte, C)
+    ),
+    split(L, C, L1, L2),
+    append(L2, L1, LRotacionada).
+

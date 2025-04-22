@@ -1,0 +1,29 @@
+% Queremos gerar um resolvedor de problemas aritméticos.
+
+equaciona(L, LEsq, LDir) :-
+    split(L, LE, LD),
+    calcula(LE, LEsq),
+    calcula(LD, LDir),
+    =:=(LEsq, LDir).
+
+calcula([X], X).
+calcula(L, Exp) :-
+    split(L, LE, LD),
+    calcula(LE, ExpEsq),
+    calcula(LD, ExpDir),
+    operador(ExpEsq, ExpDir, Exp).
+
+operador(A, B, A+B).
+operador(A, B, A-B).
+operador(A, B, A*B).
+operador(A, B, A/B) :- =\=(B, 0).
+%operador(A, B, A**B).
+
+split(L, A, B) :-
+    append(A, B, L),
+    =(A, [_|_]),
+    =(B, [_|_]).
+
+resolva(L, [LEsq, =, LDir]) :-
+    equaciona(L, LEsq, LDir).
+

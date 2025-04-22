@@ -1,0 +1,16 @@
+% Queremos gerar agora uma árvore balanceada, isto é, o número de
+% nódulos na parte esquerda e direita não podem difenciar entre si em
+% mais de 1 unidade.
+
+cbal_tree(0, nil).
+cbal_tree(N, t(x, L, R)) :-
+    N > 0,
+    N0 is N // 2,
+    N1 is N - N0,
+    troca(N0, N1, TamanhoL, TamanhoR),
+    cbal_tree(TamanhoL, L),
+    cbal_tree(TamanhoR, R).
+
+troca(N, N, N, N) :- !.
+troca(N1, N2, N1, N2).
+troca(N1, N2, N2, N1).
